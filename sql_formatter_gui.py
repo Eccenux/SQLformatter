@@ -21,10 +21,11 @@ def cleanup_sql(raw_sql):
 
 	for line in lines:
 		if line.strip().startswith("Hibernate:"):
-			sql_part = line.split("Hibernate:", 1)[1].strip()
-			if not sql_part.endswith(";"):
-				sql_part += ";"
-			cleaned_lines.append(sql_part)
+			line = line.split("Hibernate:", 1)[1].strip()
+			if not line.endswith(";"):
+				line += ";"
+		
+		cleaned_lines.append(line)
 
 	return "\n".join(cleaned_lines)
 
