@@ -18,6 +18,6 @@ Program napisany w Pythonie z okienkiem GUI do wklejenia SQL i jego formatowania
 
 Jeśli chcesz wersję `.exe`:
 ```bash
-pip install pyinstaller
-pyinstaller --onefile sql_formatter_gui.py
+python3 -m pip install pyinstaller
+pyinstaller --onefile --noconsole sql_formatter_gui.py
 ```
