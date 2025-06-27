@@ -6,11 +6,27 @@ import sqlparse
 def format_sql():
 	try:
 		raw_sql = input_text.get("1.0", tk.END)
+		raw_sql = cleanup_sql(raw_sql)
 		formatted = sqlparse.format(raw_sql, reindent=True, keyword_case='upper')
 		output_text.delete("1.0", tk.END)
 		output_text.insert(tk.END, formatted)
 	except Exception as e:
 		messagebox.showerror("Błąd", str(e))
+
+# Czyszczenie/przygotowanie do formatowania.
+# Póki co wykrywa linijki z debug z Hibernate.
+def cleanup_sql(raw_sql):
+	lines = raw_sql.splitlines()
+	cleaned_lines = []
+
+	for line in lines:
+		if line.strip().startswith("Hibernate:"):
+			sql_part = line.split("Hibernate:", 1)[1].strip()
+			if not sql_part.endswith(";"):
+				sql_part += ";"
+			cleaned_lines.append(sql_part)
+
+	return "\n".join(cleaned_lines)
 
 def save_to_file():
 	data = output_text.get("1.0", tk.END)
